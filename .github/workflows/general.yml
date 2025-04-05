@@ -1,0 +1,41 @@
+name: Testing, Formatting & Linting
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check:
+    name: Run Tests, Format, and Lint Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust toolchain (stable)
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install necessary Rust components (rustfmt and clippy)
+        run: |
+          rustup component add rustfmt
+          rustup component add clippy
+
+      - name: Cache cargo registry and build
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run Tests
+        run: cargo test
+
+      - name: Check Code Formatting
+        run: cargo fmt --check
+
+      - name: Run Clippy for Linting
+        run: cargo clippy -- -D warnings
+
