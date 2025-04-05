@@ -11,7 +11,6 @@ pub struct RelationTuple {
 }
 
 #[derive(Debug, Serialize, Clone)]
-#[allow(unused)]
 pub enum Subject {
     Direct(SubjectID),
     Set(SubjectSet),
