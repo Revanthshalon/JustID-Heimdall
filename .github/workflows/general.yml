@@ -1,4 +1,4 @@
-name: Testing, Formatting & Linting
+name: CI
 
 on:
   push:
@@ -12,8 +12,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  check:
-    name: Run Tests, Format, and Lint Code
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -30,8 +29,11 @@ jobs:
       - name: Cache cargo registry and build
         uses: Swatinem/rust-cache@v2
 
+      - name: Build
+        run: cargo build --verbose
+
       - name: Run Tests
-        run: cargo test
+        run: cargo test --verbose
 
       - name: Check Code Formatting
         run: cargo fmt --check
